@@ -36,25 +36,68 @@ const App = () => {
       setCurrentNumber('0');
       setOperation('-')
     } else {
-      const rem = Number(firstNumber) - Number(currentNumber);
-      setCurrentNumber(String(rem))
+      const sub = Number(firstNumber) - Number(currentNumber);
+      setCurrentNumber(String(sub))
+      setOperation('')
+    }
+  }
+  const handleSplitNumber = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('/')
+    }
+    else {
+      const div = Number(firstNumber) / Number(currentNumber);
+      setCurrentNumber(String(div))
+      setOperation('')
+    }
+  }
+  const handleMultNumber = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('X')
+    } else {
+      const mult = Number(firstNumber) * Number(currentNumber);
+      setCurrentNumber(String(mult))
+      setOperation('')
+    }
+  }
+  const handlePorcentNumber = () => {
+    if (firstNumber === '0') {
+      setFirstNumber(String(currentNumber));
+      setCurrentNumber('0');
+      setOperation('%')
+    } else {
+      const porcent = (Number(currentNumber) / 100) * Number(firstNumber);
+      setCurrentNumber(String(porcent))
       setOperation('')
     }
   }
 
   const handleEquals = () => {
     if (firstNumber !== '0' && operation !== '' && currentNumber !== '0') {
-      switch(operation){
+      switch (operation) {
         case '+':
-        handleSumNumber();
-        break;
+          handleSumNumber();
+          break;
         case '-':
-        handleMinusNumber();
-        break;
+          handleMinusNumber();
+          break;
+        case '/':
+          handleSplitNumber();
+          break;
+        case 'X':
+          handleMultNumber();
+          break;
+        case '%':
+          handlePorcentNumber();
+          break;
         default:
           break;
       }
-    } 
+    }
   }
   return (
     <Container>
@@ -62,9 +105,9 @@ const App = () => {
         <Input value={currentNumber} />
         <Row>
           <Button label="Clear" onClick={handleOnClear} />
-          <Button label="/" />
-          <Button label="%" />
-          <Button label="x" />
+          <Button label="/" onClick={handleSplitNumber} />
+          <Button label="%" onClick={handlePorcentNumber}/>
+          <Button label="x" onClick={handleMultNumber} />
         </Row>
         <Row>
           <Button label="7" onClick={() => handleAddNumber('7')} />
@@ -83,6 +126,9 @@ const App = () => {
           <Button label="2" onClick={() => handleAddNumber('2')} />
           <Button label="3" onClick={() => handleAddNumber('3')} />
           <Button label="=" onClick={handleEquals} />
+        </Row>
+        <Row>
+          <Button label='0' onClick={() => handleAddNumber('0')} />
         </Row>
 
       </Content>
